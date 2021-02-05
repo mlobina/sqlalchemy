@@ -101,8 +101,9 @@ session = Session()
 #print(q)
 
 subq = session.query(Musician.name).join(Genre.musician).group_by(Musician.id).\
-    having(func.count(Genre.id) > 1).all()
-q = session.query(Album.title).join(Album.musician).join(subq). # никак не получается продолжить код
+    having(func.count(Genre.id) > 1).subquery()
+q = session.query(Album.title).join(Album.musician).join(subq).filter(Musician.name.in_subq)  # н
+print(q)# никак не получается продолжить код
 
 
 
